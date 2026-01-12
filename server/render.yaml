@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: stchat-server
+    runtime: node
+    buildCommand: npm install
+    startCommand: node index.js
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: HOST
+        value: 0.0.0.0
+      - key: ALLOWED_ORIGINS
+        value: https://your-netlify-app.netlify.app
