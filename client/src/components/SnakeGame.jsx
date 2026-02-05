@@ -40,7 +40,6 @@ const SnakeGame = () => {
                 y: (prevSnake[0].y + directionRef.current.y + GRID_SIZE) % GRID_SIZE
             };
 
-            // Check self collision
             if (prevSnake.some(segment => segment.x === newHead.x && segment.y === newHead.y)) {
                 setGameOver(true);
                 setIsPlaying(false);
@@ -49,7 +48,6 @@ const SnakeGame = () => {
 
             const newSnake = [newHead, ...prevSnake];
 
-            // Check food collision
             if (newHead.x === food.x && newHead.y === food.y) {
                 setScore(s => s + 10);
                 setFood(generateFood());
@@ -110,7 +108,6 @@ const SnakeGame = () => {
         return () => window.removeEventListener('keydown', handleKeyDown);
     }, [isPlaying]);
 
-    // Touch controls for mobile
     const handleTouch = (dir) => {
         if (!isPlaying) return;
         if (dir === 'up' && directionRef.current.y !== 1) {
@@ -125,8 +122,17 @@ const SnakeGame = () => {
     };
 
     return (
-        <div className="snake-game">
-            <div className="snake-header">
+        <div className="snake-game" style={{ 
+            display: 'flex', 
+            flexDirection: 'column', 
+            alignItems: 'center', 
+            minHeight: '100vh',
+            padding: '10px',
+            boxSizing: 'border-box',
+            maxWidth: '100vw',
+            overflow: 'hidden'
+        }}>
+            <div className="snake-header" style={{ width: '100%', maxWidth: '400px' }}>
                 <span className="snake-title">🐍 Snake</span>
                 <span className="snake-score">Score: {score}</span>
             </div>
@@ -134,9 +140,11 @@ const SnakeGame = () => {
             <div
                 className="snake-grid"
                 style={{
-                    width: GRID_SIZE * CELL_SIZE,
-                    height: GRID_SIZE * CELL_SIZE,
-                    gridTemplateColumns: `repeat(${GRID_SIZE}, ${CELL_SIZE}px)`
+                    width: Math.min(GRID_SIZE * CELL_SIZE, window.innerWidth - 40),
+                    height: Math.min(GRID_SIZE * CELL_SIZE, window.innerWidth - 40),
+                    gridTemplateColumns: `repeat(${GRID_SIZE}, ${CELL_SIZE}px)`,
+                    flexShrink: 0,
+                    margin: '10px 0'
                 }}
             >
                 {Array.from({ length: GRID_SIZE * GRID_SIZE }).map((_, i) => {
@@ -156,12 +164,16 @@ const SnakeGame = () => {
             </div>
 
             {!isPlaying && (
-                <button className="snake-start-btn" onClick={resetGame}>
+                <button className="snake-start-btn" onClick={resetGame} style={{ margin: '10px 0' }}>
                     {gameOver ? '🔄 Play Again' : '▶ Start Game'}
                 </button>
             )}
 
-            <div className="snake-controls">
+            <div className="snake-controls" style={{ 
+                marginTop: '10px', 
+                marginBottom: '10px',
+                flexShrink: 0 
+            }}>
                 <button onClick={() => handleTouch('up')}>↑</button>
                 <div className="snake-controls-row">
                     <button onClick={() => handleTouch('left')}>←</button>
@@ -170,7 +182,10 @@ const SnakeGame = () => {
                 </div>
             </div>
 
-            <p className="snake-hint">Use arrow keys or WASD to play</p>
+            <p className="snake-hint" style={{ 
+                margin: '5px 0',
+                flexShrink: 0 
+            }}>Use arrow keys or WASD to play</p>
         </div>
     );
 };
