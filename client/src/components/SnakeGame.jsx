@@ -18,7 +18,7 @@ const SnakeGame = () => {
     useEffect(() => {
         const timer = setTimeout(() => {
             setShowPlayButton(true);
-        }, 500);
+        }, 1000);
         return () => clearTimeout(timer);
     }, []);
 
