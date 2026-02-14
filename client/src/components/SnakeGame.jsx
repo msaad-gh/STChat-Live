@@ -18,7 +18,7 @@ const SnakeGame = () => {
     useEffect(() => {
         const timer = setTimeout(() => {
             setShowPlayButton(true);
-        }, 1000);
+        }, 500);
         return () => clearTimeout(timer);
     }, []);
 
@@ -269,6 +269,30 @@ const SnakeGame = () => {
                     from { opacity: 0; transform: scale(0.9); }
                     to { opacity: 1; transform: scale(1); }
                 }
+                .mobile-controls {
+                    display: flex;
+                }
+                @media (min-width: 769px) {
+                    .mobile-controls {
+                        display: none;
+                    }
+                }
+                .desktop-hint {
+                    display: none;
+                }
+                @media (min-width: 769px) {
+                    .desktop-hint {
+                        display: block;
+                    }
+                }
+                .mobile-hint {
+                    display: block;
+                }
+                @media (min-width: 769px) {
+                    .mobile-hint {
+                        display: none;
+                    }
+                }
             `}</style>
 
             <div style={{
@@ -403,9 +427,8 @@ const SnakeGame = () => {
                     </button>
                 )}
 
-                <div style={{
+                <div className="mobile-controls" style={{
                     marginTop: '20px',
-                    display: 'flex',
                     flexDirection: 'column',
                     alignItems: 'center',
                     gap: 'clamp(8px, 2vw, 12px)',
@@ -493,14 +516,24 @@ const SnakeGame = () => {
                     </div>
                 </div>
 
-                <p style={{
+                <p className="mobile-hint" style={{
                     marginTop: '16px',
                     textAlign: 'center',
                     fontSize: 'clamp(11px, 2.5vw, 13px)',
                     color: '#64748b',
                     fontWeight: '500'
                 }}>
-                    Arrow keys or WASD
+                    Use controls above or WASD
+                </p>
+
+                <p className="desktop-hint" style={{
+                    marginTop: '16px',
+                    textAlign: 'center',
+                    fontSize: 'clamp(11px, 2.5vw, 13px)',
+                    color: '#64748b',
+                    fontWeight: '500'
+                }}>
+                    Use arrow keys or WASD
                 </p>
             </div>
         </div>
